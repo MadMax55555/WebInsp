@@ -557,7 +557,7 @@ export function ShowcasesPage() {
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
               {visibleShowcases.map((showcase) => {
                 const selected = selectedIds.includes(showcase.id);
 
@@ -565,84 +565,83 @@ export function ShowcasesPage() {
                   <div
                     key={showcase.id}
                     className={[
-                      "group rounded-3xl border p-4 transition",
+                      "group overflow-hidden rounded-[26px] border transition",
                       selected
                         ? "border-violet-400 bg-violet-50 dark:border-violet-500/40 dark:bg-violet-500/10"
-                        : "border-slate-200 bg-white hover:border-slate-300 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.05]",
+                        : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.05] dark:hover:shadow-black/10",
                     ].join(" ")}
                   >
-                    <div className="flex gap-4">
+                    <div className="relative">
                       <button
                         type="button"
                         onClick={() => toggleSelect(showcase.id)}
-                        className="mt-1 text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-white"
+                        className="absolute left-3 top-3 z-20 rounded-full bg-white/90 p-1.5 text-slate-500 shadow-sm backdrop-blur transition hover:text-slate-900 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:text-white"
                       >
                         {selected ? (
-                          <CheckSquare className="h-5 w-5" />
+                          <CheckSquare className="h-4.5 w-4.5" />
                         ) : (
-                          <Square className="h-5 w-5" />
+                          <Square className="h-4.5 w-4.5" />
                         )}
                       </button>
 
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-                          <div className="min-w-0">
-                            <button
-                              type="button"
-                              onClick={() => openEditDrawer(showcase)}
-                              className="truncate text-left text-base font-semibold text-slate-950 transition hover:text-violet-600 dark:text-white dark:hover:text-violet-300"
-                            >
-                              {showcase.title}
-                            </button>
+                      <a
+                        href={showcase.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative block aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/10 via-transparent to-transparent dark:from-black/20" />
 
-                            <a
-                              href={showcase.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="mt-1 inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5" />
-                              {showcase.url}
-                            </a>
-
-                            <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                              {showcase.description || "No description provided."}
-                            </p>
-
-                            <div className="mt-3 flex flex-wrap gap-2">
-                              {(showcase.tags ?? []).map((tag) => (
-                                <span
-                                  key={tag.id}
-                                  className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
-                                >
-                                  #{tag.name}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="flex shrink-0 gap-2">
-                            <button
-                              type="button"
-                              onClick={() => openEditDrawer(showcase)}
-                              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10"
-                            >
-                              <Pencil className="h-4 w-4" />
-                              Edit
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteShowcase(showcase)}
-                              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-3 text-sm text-red-600 transition hover:bg-red-100 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                              Delete
-                            </button>
-                          </div>
+                        <div className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/85 text-slate-700 shadow-sm transition group-hover:scale-105 group-hover:opacity-100 dark:border-white/10 dark:bg-slate-950/75 dark:text-white">
+                          <ExternalLink className="h-4 w-4" />
                         </div>
-                      </div>
+
+<div className="pointer-events-none h-full w-full overflow-hidden">
+  <div className="h-full w-full overflow-hidden border border-slate-200/70 bg-white shadow-sm dark:border-white/10 dark:bg-slate-950/70">
+    <iframe
+      src={showcase.url}
+      title={showcase.title}
+      className="h-[900px] w-[1440px] origin-top-left scale-[0.28] border-0"
+    />
+  </div>
+</div>
+                      </a>
                     </div>
+
+                    <button
+                      type="button"
+                      onClick={() => openEditDrawer(showcase)}
+                      className="block w-full space-y-3 p-4 text-left"
+                    >
+                      <div>
+                        <h3 className="line-clamp-1 text-sm font-semibold text-slate-950 transition group-hover:text-violet-600 dark:text-white dark:group-hover:text-violet-300">
+                          {showcase.title}
+                        </h3>
+                      </div>
+
+                      <div className="flex min-h-[28px] flex-wrap gap-2">
+                        {(showcase.tags ?? []).length > 0 ? (
+                          showcase.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag.id}
+                              className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+                            >
+                              {tag.name}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-slate-400 dark:text-slate-500">
+                            No tags
+                          </span>
+                        )}
+
+                        {(showcase.tags?.length ?? 0) > 3 && (
+                          <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-slate-400">
+                            +{(showcase.tags?.length ?? 0) - 3}
+                          </span>
+                        )}
+                      </div>
+                    </button>
                   </div>
                 );
               })}
@@ -754,151 +753,227 @@ export function ShowcasesPage() {
         </aside>
       </div>
 
-      {drawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-sm">
-          <div className="h-full w-full max-w-3xl overflow-y-auto border-l border-slate-200 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-[#0b1324] sm:w-[70vw]">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-medium text-violet-600 dark:text-violet-300">
-                  {drawerMode === "create" ? "Create showcase" : "Edit showcase"}
-                </p>
-                <h3 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
-                  {drawerMode === "create"
-                    ? "Add a new inspiration site"
-                    : editingShowcase?.title ?? "Update showcase"}
+{drawerOpen && (
+  <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-sm">
+    <div className="h-full w-full max-w-3xl overflow-y-auto border-l border-slate-200 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-[#0b1324] sm:w-[70vw]">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-violet-600 dark:text-violet-300">
+            {drawerMode === "create" ? "Create showcase" : "Edit showcase"}
+          </p>
+          <h3 className="mt-1 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
+            {drawerMode === "create"
+              ? "Add a new inspiration site"
+              : editingShowcase?.title ?? "Update showcase"}
+          </h3>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            Fill the details, attach tags, and save your showcase.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={closeDrawer}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      <div className="mt-8 grid gap-6">
+        {drawerMode === "edit" && (
+          <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-5 dark:border-white/10 dark:bg-white/[0.04]">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div className="min-w-0">
+                <h3 className="truncate text-lg font-semibold text-slate-950 dark:text-white">
+                  {form.title || "Untitled showcase"}
                 </h3>
-                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                  Fill the details, attach tags, and save your showcase.
-                </p>
+
+                <a
+                  href={form.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  {form.url}
+                </a>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {form.tagIds.length > 0 ? (
+                    form.tagIds.map((tagId) => {
+                      const tag = tags.find((item) => item.id === tagId);
+                      if (!tag) return null;
+
+                      return (
+                        <span
+                          key={tag.id}
+                          className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 dark:border-white/10 dark:bg-white/10 dark:text-slate-200"
+                        >
+                          {tag.name}
+                        </span>
+                      );
+                    })
+                  ) : (
+                    <span className="text-xs text-slate-400 dark:text-slate-500">
+                      No tags attached
+                    </span>
+                  )}
+                </div>
               </div>
 
-              <button
-                type="button"
-                onClick={closeDrawer}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10"
+              <a
+                href={form.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10"
               >
-                <X className="h-5 w-5" />
-              </button>
+                <ExternalLink className="h-4 w-4" />
+                Open website
+              </a>
             </div>
+          </div>
+        )}
 
-            <div className="mt-8 grid gap-6">
-              <div className="grid gap-5">
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
-                    Title
-                  </label>
-                  <input
-                    value={form.title}
-                    onChange={(e) =>
-                      setForm((prev) => ({ ...prev, title: e.target.value }))
-                    }
-                    placeholder="Stripe landing page"
-                    className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
-                  />
-                </div>
+        <div className="grid gap-5">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
+              Title
+            </label>
+            <input
+              value={form.title}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, title: e.target.value }))
+              }
+              placeholder="Stripe landing page"
+              className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
+            />
+          </div>
 
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
-                    URL
-                  </label>
-                  <input
-                    value={form.url}
-                    onChange={(e) =>
-                      setForm((prev) => ({ ...prev, url: e.target.value }))
-                    }
-                    placeholder="https://example.com"
-                    className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
-                  />
-                </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
+              URL
+            </label>
+            <input
+              value={form.url}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, url: e.target.value }))
+              }
+              placeholder="https://example.com"
+              className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
+            />
+          </div>
 
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
-                    Description
-                  </label>
-                  <textarea
-                    value={form.description}
-                    onChange={(e) =>
-                      setForm((prev) => ({ ...prev, description: e.target.value }))
-                    }
-                    rows={5}
-                    placeholder="What makes this site useful as inspiration?"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
-                  />
-                </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
+              Description
+            </label>
+            <textarea
+              value={form.description}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, description: e.target.value }))
+              }
+              rows={5}
+              placeholder="What makes this site useful as inspiration?"
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
+            />
+          </div>
 
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
-                    Tags
-                  </label>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-800 dark:text-slate-200">
+              Tags
+            </label>
 
-                  <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-3 dark:border-white/10 dark:bg-white/[0.03]">
-                    <div className="flex flex-wrap gap-2">
-                      {form.tagIds.map((tagId) => {
-                        const tag = tags.find((item) => item.id === tagId);
-                        if (!tag) return null;
+            <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-3 dark:border-white/10 dark:bg-white/[0.03]">
+              <div className="flex flex-wrap gap-2">
+                {form.tagIds.map((tagId) => {
+                  const tag = tags.find((item) => item.id === tagId);
+                  if (!tag) return null;
 
-                        return (
-                          <span
+                  return (
+                    <span
+                      key={tag.id}
+                      className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm dark:bg-white/10 dark:text-slate-200"
+                    >
+                      {tag.name}
+                      <button
+                        type="button"
+                        onClick={() => removeTagFromForm(tag.id)}
+                        className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </span>
+                  );
+                })}
+              </div>
+
+              <div className="relative mt-3">
+                <input
+                  value={tagQuery}
+                  onChange={(e) => setTagQuery(e.target.value)}
+                  placeholder="Type to search or create a tag..."
+                  className="h-11 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
+                />
+
+                {tagQuery.trim() && (
+                  <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg dark:border-white/10 dark:bg-[#111a2d]">
+                    <div className="max-h-60 overflow-auto">
+                      {tagSuggestions
+                        .filter((tag) => !form.tagIds.includes(tag.id))
+                        .map((tag) => (
+                          <button
                             key={tag.id}
-                            className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm dark:bg-white/10 dark:text-slate-200"
+                            type="button"
+                            onClick={() => addExistingTagToForm(tag)}
+                            className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-white/5"
                           >
-                            #{tag.name}
-                            <button
-                              type="button"
-                              onClick={() => removeTagFromForm(tag.id)}
-                              className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
-                            >
-                              <X className="h-3.5 w-3.5" />
-                            </button>
-                          </span>
-                        );
-                      })}
-                    </div>
+                            <span>{tag.name}</span>
+                            <span className="text-xs text-slate-400">
+                              existing
+                            </span>
+                          </button>
+                        ))}
 
-                    <div className="relative mt-3">
-                      <input
-                        value={tagQuery}
-                        onChange={(e) => setTagQuery(e.target.value)}
-                        placeholder="Type to search or create a tag..."
-                        className="h-11 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-950 outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white"
-                      />
-
-                      {tagQuery.trim() && (
-                        <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg dark:border-white/10 dark:bg-[#111a2d]">
-                          <div className="max-h-60 overflow-auto">
-                            {tagSuggestions
-                              .filter((tag) => !form.tagIds.includes(tag.id))
-                              .map((tag) => (
-                                <button
-                                  key={tag.id}
-                                  type="button"
-                                  onClick={() => addExistingTagToForm(tag)}
-                                  className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-white/5"
-                                >
-                                  <span>#{tag.name}</span>
-                                  <span className="text-xs text-slate-400">existing</span>
-                                </button>
-                              ))}
-
-                            {!exactTagMatch && normalizeTagName(tagQuery) && (
-                              <button
-                                type="button"
-                                onClick={handleCreateTagAndAttach}
-                                className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-violet-700 transition hover:bg-violet-50 dark:text-violet-300 dark:hover:bg-violet-500/10"
-                              >
-                                <span>Create tag “{normalizeTagName(tagQuery)}”</span>
-                                <span className="text-xs">new</span>
-                              </button>
-                            )}
-                          </div>
-                        </div>
+                      {!exactTagMatch && normalizeTagName(tagQuery) && (
+                        <button
+                          type="button"
+                          onClick={handleCreateTagAndAttach}
+                          className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-violet-700 transition hover:bg-violet-50 dark:text-violet-300 dark:hover:bg-violet-500/10"
+                        >
+                          <span>Create tag "{normalizeTagName(tagQuery)}"</span>
+                          <span className="text-xs">new</span>
+                        </button>
                       )}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
+            </div>
+          </div>
+        </div>
 
-              <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-6 dark:border-white/10">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-6 dark:border-white/10">
+          {drawerMode === "edit" && editingShowcase ? (
+            <>
+              <button
+                type="button"
+                onClick={() => handleDeleteShowcase(editingShowcase)}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 px-5 text-sm font-medium text-red-600 transition hover:bg-red-100 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
+              >
+                <Trash2 className="h-4 w-4" />
+                Delete showcase
+              </button>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={closeDrawer}
+                  className="inline-flex h-12 items-center justify-center rounded-2xl border border-slate-200 px-5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5"
+                >
+                  Cancel
+                </button>
+
                 <button
                   type="button"
                   onClick={handleSubmitShowcase}
@@ -910,27 +985,40 @@ export function ShowcasesPage() {
                   }
                   className="inline-flex h-12 items-center justify-center rounded-2xl bg-slate-950 px-5 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-slate-950"
                 >
-                  {drawerMode === "create"
-                    ? createShowcase.isPending
-                      ? "Creating..."
-                      : "Create showcase"
-                    : updateShowcase.isPending
-                    ? "Saving..."
-                    : "Save changes"}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={closeDrawer}
-                  className="inline-flex h-12 items-center justify-center rounded-2xl border border-slate-200 px-5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5"
-                >
-                  Cancel
+                  {updateShowcase.isPending ? "Saving..." : "Save changes"}
                 </button>
               </div>
-            </div>
-          </div>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={closeDrawer}
+                className="inline-flex h-12 items-center justify-center rounded-2xl border border-slate-200 px-5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSubmitShowcase}
+                disabled={
+                  createShowcase.isPending ||
+                  updateShowcase.isPending ||
+                  !form.title.trim() ||
+                  !form.url.trim()
+                }
+                className="inline-flex h-12 items-center justify-center rounded-2xl bg-slate-950 px-5 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-slate-950"
+              >
+                {createShowcase.isPending ? "Creating..." : "Create showcase"}
+              </button>
+            </>
+          )}
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
       {collectionDrawerOpen && (
         <div className="fixed inset-0 z-[60] flex justify-end bg-slate-950/40 backdrop-blur-sm">
           <div className="h-full w-full max-w-2xl overflow-y-auto border-l border-slate-200 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-[#0b1324] sm:w-[55vw]">
