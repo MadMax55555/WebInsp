@@ -55,8 +55,6 @@ Frontend runs on Vite and proxies `/api` to the Django backend.
 
 ## Screens
 
-Add your screenshots in a folder like `screenshots/` and update the paths below.
-
 ### Showcases
 <img src="screenshots/showcases.png" alt="Showcases screen" width="850" />
 
